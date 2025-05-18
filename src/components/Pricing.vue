@@ -1,5 +1,5 @@
 <script setup>
-import { themeColor } from "../data/items";
+import { themeColor, themeColorOrange } from "../data/items";
 const heading = "Pricing";
 const subHeading = "Pricing for everyone. Choose your plan now!";
 const startButtonName = "Get Started";
@@ -18,8 +18,10 @@ const packages = [
   },
 ];
 </script>
+
+
 <template>
-  <div class="untree_co-section bg-light" id="pricing-section">
+  <div class="untree_co-section" id="pricing-section">
     <div class="container">
       <div class="row pricing-title">
         <div class="col-12 text-center" data-aos="fade-up" data-aos-delay="0">
@@ -36,7 +38,7 @@ const packages = [
                   <div class="price">
                     <span class="d-block plan">{{ packages[0].name }}</span>
                     <span class="price" :style="[{ color: themeColor }]"
-                      ><sup>$</sup><span>{{ packages[0].price }}</span></span
+                      ><sup>€</sup><span>{{ packages[0].price }}</span></span
                     >
                   </div>
                   <ul class="list-unstyled ul-check primary mb-5">
@@ -47,8 +49,8 @@ const packages = [
                   <p class="text-center mb-0">
                     <a
                       href="#"
-                      class="btn btn-outline-primary"
-                      :style="[
+                      class="btn btn-outline-primary btn-hovered"
+                                            :style="[
                         { color: themeColor },
                         { borderColor: themeColor },
                       ]"
@@ -64,7 +66,7 @@ const packages = [
                   <div class="price">
                     <span class="d-block plan">{{ packages[1].name }}</span>
                     <span class="price" :style="[{ color: themeColor }]"
-                      ><sup>$</sup><span>{{ packages[1].price }}</span></span
+                      ><sup>€</sup><span>{{ packages[1].price }}</span></span
                     >
                   </div>
                   <ul class="list-unstyled ul-check primary mb-5">
@@ -92,7 +94,7 @@ const packages = [
                   <div class="price">
                     <span class="d-block plan">{{ packages[2].name }}</span>
                     <span class="price" :style="[{ color: themeColor }]"
-                      ><sup>$</sup><span>{{ packages[2].price }}</span></span
+                      ><sup>€</sup><span>{{ packages[2].price }}</span></span
                     >
                   </div>
                   <ul class="list-unstyled ul-check primary mb-5">
@@ -103,7 +105,7 @@ const packages = [
                   <p class="text-center mb-0">
                     <a
                       href="#"
-                      class="btn btn-outline-primary"
+                      class="btn btn-outline-primary btn-hovered"
                       :style="[
                         { color: themeColor },
                         { borderColor: themeColor },
@@ -120,3 +122,13 @@ const packages = [
     </div>
   </div>
 </template>
+
+
+
+<style scoped>
+.btn-hovered:hover {
+  color: v-bind(themeColor);
+  background-color: v-bind(themeColorOrange);
+  border-color: v-bind(themeColor);
+}
+</style>

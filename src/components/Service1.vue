@@ -1,7 +1,7 @@
 <script setup>
 import { themeColor } from "../data/items";
 import personPhoto from "../assets/images/person_1.jpg";
-import mainPhoto from "../assets/images/service1.jpg";
+import mainPhoto from "../assets/images/service1.png";
 
 const service1Heading = "Digital Services";
 const service1SubHeading = "Selling Digital Services";
@@ -15,7 +15,7 @@ function youtubeVideoUrl() {
 }
 </script>
 <template>
-  <div class="untree_co-section" id="features-section">
+  <div class="untree_co-section bg-light">
     <div class="container">
       <div class="row justify-content-between">
         <div class="col-lg-4">
@@ -24,8 +24,8 @@ function youtubeVideoUrl() {
             data-aos="fade-up"
             data-aos-delay="0"
             :style="[{ color: themeColor }]"
-            >{{ service1Heading }}</span
-          >
+            >{{ service1Heading }}
+          </span>
           <h3 class="heading mb-4" data-aos="fade-up" data-aos-delay="100">
             {{ service1SubHeading }}
           </h3>

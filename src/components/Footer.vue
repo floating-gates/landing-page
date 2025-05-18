@@ -1,8 +1,8 @@
 <script setup>
 import { contactInfo } from "../data/items";
 
-const copyrightText = "Copyright 2023, All rights reserved.";
-const column1Heading = "About Launch";
+const copyrightText = "Copyright 2025, All rights reserved.";
+const column1Heading = "About us";
 const column1Text =
   "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.";
 const column2Heading = "Projects";
@@ -76,26 +76,26 @@ const socialItems = [
             </ul>
           </div>
         </div>
-        <div class="col-lg-2 ml-auto">
-          <div class="widget">
-            <h3>{{ column2Heading }}</h3>
-            <ul class="list-unstyled float-left links">
-              <li><a href="#">La Lega Stadium</a></li>
-              <li><a href="#">France Building</a></li>
-              <li><a href="#">22 New Homes</a></li>
-              <li><a href="#">Manage Center</a></li>
-              <li><a href="#">Sports Hall</a></li>
-            </ul>
-          </div>
-        </div>
+        <!-- <div class="col-lg-2 ml-auto"> -->
+        <!--   <div class="widget"> -->
+        <!--     <h3>{{ column2Heading }}</h3> -->
+        <!--     <ul class="list-unstyled float-left links"> -->
+        <!--       <li><a href="#">La Lega Stadium</a></li> -->
+        <!--       <li><a href="#">France Building</a></li> -->
+        <!--       <li><a href="#">22 New Homes</a></li> -->
+        <!--       <li><a href="#">Manage Center</a></li> -->
+        <!--       <li><a href="#">Sports Hall</a></li> -->
+        <!--     </ul> -->
+        <!--   </div> -->
+        <!-- </div> -->
         <div class="col-lg-2">
           <div class="widget">
             <h3>{{ column3Heading }}</h3>
             <ul class="list-unstyled float-left links">
-              <li><a href="#">Architect</a></li>
-              <li><a href="#">Interior Design</a></li>
-              <li><a href="#">Landscape Design</a></li>
-              <li><a href="#">Consultancy</a></li>
+              <li><a href="#">Scientific Software Dev.</a></li>
+              <li><a href="#">Mechanical Design</a></li>
+              <li><a href="#">Data Pipeline</a></li>
+              <li><a href="#">Physics with Machine Learning</a></li>
             </ul>
           </div>
         </div>
@@ -106,12 +106,7 @@ const socialItems = [
             <ul class="list-unstyled links mb-4">
               <li>
                 <a :href="'tel://' + contactInfo.phone1">{{
-                  contactInfo.phone1
-                }}</a>
-              </li>
-              <li>
-                <a :href="'tel://' + contactInfo.phone2">{{
-                  contactInfo.phone2
+                  contactInfo.phone
                 }}</a>
               </li>
               <li>

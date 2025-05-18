@@ -1,33 +1,34 @@
 <script setup>
+
+import { themeColor, themeColorOrange, themeColorWhite,
+       themeColorLille, themeColorGold } from '../data/items'
+
 const items = [
   {
-    iconBg: "background-color: #6fe7dd",
-    title: "Grow Your Business",
+    title: "Publish your platform",
+    description:
+      "After our first contact.",
+  },
+  {
+    title: "Client will funnel 3D models to you",
     description:
       "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
   },
   {
-    iconBg: "background-color: #ffc93c",
-    title: "Build Products",
-    description:
-      "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
-  },
-  {
-    iconBg: "background-color: #f73859",
-    title: "Success Each Day",
+    title: "They will Optimize they device",
     description:
       "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
   },
   {
     iconBg: "background-color: #407BFF",
-    title: "Bring Ideas to Life",
+    title: "Manufacture the device",
     description:
-      "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
+      "You will make use of your machines to make the device possible and ship it to the customer.",
   },
 ];
 </script>
 <template>
-  <div class="untree_co-section">
+  <div class="untree_co-section" id="features-section">
     <div class="container">
       <div class="row">
         <div

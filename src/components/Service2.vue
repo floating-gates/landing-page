@@ -1,32 +1,35 @@
 <script setup>
 import mainPhoto from "../assets/images/service2.jpg";
+import heat_exchanger_pic from "../assets/images/heat_exchanger.webp";
+import { themeColor } from "../data/items";
+
 const items = [
   {
     id: 1,
-    name: "Grow Your Business",
-    des: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.",
+    name: "Publish your Platform",
+    des: "After our first contact you will be able to publish your 3D platform.",
   },
   {
     id: 2,
-    name: "Build Products",
-    des: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.",
+    name: "Wait for 3D models",
+    des: "Clients will funnel 3D model to be printed into your platform.",
   },
   {
     id: 3,
-    name: "Success Every Day",
+    name: "Allow limitless Optimization",
     des: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.",
   },
   {
     id: 4,
-    name: "Bring Ideas to Life",
-    des: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.",
+    name: "Manufacture",
+    des: "You will make use of your machines to make the device possible and ship it to the customer.",
   },
 ];
 const total = 4;
 </script>
 
 <template>
-  <div class="untree_co-section bg-light">
+  <div class="untree_co-section bg-light" id="features-section">
     <div class="container">
       <div class="row justify-content-between">
         <div class="col-lg-5 order-lg-2 js-custom-dots">
@@ -157,7 +160,7 @@ const total = 4;
               </div>
               <div class="item">
                 <span class="number">{{ items[2].id }}/{{ total }}</span>
-                <img :src="mainPhoto" alt="Image" class="img-fluid" />
+                <img :src="heat_exchanger_pic" alt="Image" class="img-fluid" />
               </div>
               <div class="item">
                 <span class="number">{{ items[3].id }}/{{ total }}</span>

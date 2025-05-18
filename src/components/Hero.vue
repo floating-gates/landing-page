@@ -1,9 +1,9 @@
 <script setup>
-import mainPhoto from "../assets/images/hero.svg";
-import { themeColor } from "../data/items";
+import mainPhoto from "../assets/images/heat_exchanger.webp";
+import { themeColor, themeColorOrange, themeColorWhite } from "../data/items";
 
-const heroHeading = "Promote Your Products by Colorlib";
-const buttonSeeFeature = "See Features";
+const heroHeading = "Host your Platform to Receive and Simulate Customers' Devices";
+const buttonSeeFeature = "How does it work";
 const buttonPricing = "Pricing";
 </script>
 
@@ -27,17 +27,10 @@ const buttonPricing = "Pricing";
               </h1>
               <div class="excerpt" data-aos="fade-up" data-aos-delay="100">
                 <p>
-                  Another cool free html css template by
-                  <span
-                    style="
-                      background-color: rgba(64, 123, 255, 0.07);
-                      color: #407bff;
-                    "
-                    >Colorlib</span
-                  >
-                  Far far away, behind the word mountains, far from the
-                  countries Vokalia and Consonantia, there live the blind texts.
-                  Separated they live in Bookmarksgrove right at the coast
+                  Easily receive 
+                  <span :style="{ color: themeColorOrange }">3D models</span>
+                  to perform simulation, and handle manufacturing—all in one
+                  seamless platform.
                 </p>
               </div>
               <p data-aos="fade-up" data-aos-delay="200">
@@ -53,10 +46,9 @@ const buttonPricing = "Pricing";
                 >
                 <a
                   href="#pricing-section"
-                  class="btn btn-outline-primary smoothscroll pricing"
+                  class="btn btn-outline-primary smoothscroll btn-hover"
                   :style="[{ color: themeColor }, { borderColor: themeColor }]"
-                  >{{ buttonPricing }}</a
-                >
+                  >{{ buttonPricing }}</a>
               </p>
             </div>
           </div>
@@ -67,7 +59,8 @@ const buttonPricing = "Pricing";
 </template>
 
 <style scoped>
-.pricing:hover {
-  color: #fff !important;
+.btn-hover:hover {
+  color: v-bind(themeColorWhite);
+  background-color: v-bind(themeColorOrange);
 }
 </style>
