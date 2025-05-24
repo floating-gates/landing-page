@@ -1,20 +1,20 @@
 <script setup>
 import { themeColor, themeColorOrange } from "../data/items";
 const heading = "Pricing";
-const subHeading = "Pricing for everyone. Choose your plan now!";
+const subHeading = "Pricing refer to the hosting services. While you can choose how much it is going to cost how to produce customer devices";
 const startButtonName = "Get Started";
 const packages = [
   {
-    name: "Free",
-    price: "0",
+    name: "Basic",
+    price: "49.00",
   },
   {
     name: "Standard",
-    price: "19.99",
+    price: "Coming Soon",
   },
   {
-    name: "Premium",
-    price: "79.99",
+    name: "Enterprise",
+    price: "Coming Soon",
   },
 ];
 </script>
@@ -38,19 +38,19 @@ const packages = [
                   <div class="price">
                     <span class="d-block plan">{{ packages[0].name }}</span>
                     <span class="price" :style="[{ color: themeColor }]"
-                      ><sup>€</sup><span>{{ packages[0].price }}</span></span
-                    >
+                          >{{ packages[0].price }}<sup>€/Month</sup></span>
                   </div>
+                  <pre></pre>
                   <ul class="list-unstyled ul-check primary mb-5">
-                    <li>There live the blind texts</li>
-                    <li>Far far away behind the word</li>
-                    <li>Far from the countries Vokalia and Consonantia</li>
+                    <li> Up to 30 Projects</li>
+                    <li> Private Projects </li>
+                    <li> Custom computing quota included </li> 
                   </ul>
                   <p class="text-center mb-0">
                     <a
-                      href="#"
+                      href="mailto:contact@floating-gates.com"
                       class="btn btn-outline-primary btn-hovered"
-                                            :style="[
+                      :style="[
                         { color: themeColor },
                         { borderColor: themeColor },
                       ]"
@@ -66,17 +66,18 @@ const packages = [
                   <div class="price">
                     <span class="d-block plan">{{ packages[1].name }}</span>
                     <span class="price" :style="[{ color: themeColor }]"
-                      ><sup>€</sup><span>{{ packages[1].price }}</span></span
+                      ><span><sup>{{ packages[1].price }}</sup></span></span
                     >
                   </div>
                   <ul class="list-unstyled ul-check primary mb-5">
-                    <li>There live the blind texts</li>
-                    <li>Far far away behind the word</li>
-                    <li>Far from the countries Vokalia and Consonantia</li>
+                    <li>Unlimited Project Number</li>
+                    <li>Proprietary URL</li>
+                    <li>Customer data Ownership</li>
+                    <li>200 Simulation Hours</li>
                   </ul>
                   <p class="text-center mb-0">
                     <a
-                      href="#"
+                      href="mailto:contact@floating-gates.com"
                       class="btn btn-primary"
                       :style="[
                         { backgroundColor: themeColor },
@@ -93,18 +94,19 @@ const packages = [
                 <div class="body">
                   <div class="price">
                     <span class="d-block plan">{{ packages[2].name }}</span>
-                    <span class="price" :style="[{ color: themeColor }]"
-                      ><sup>€</sup><span>{{ packages[2].price }}</span></span
+                    <span class="price" :style="[{ color: themeColor }]">
+                      
+                      <span><sup>{{ packages[2].price }}</sup></span></span
                     >
                   </div>
                   <ul class="list-unstyled ul-check primary mb-5">
-                    <li>There live the blind texts</li>
-                    <li>Far far away behind the word</li>
-                    <li>Far from the countries Vokalia and Consonantia</li>
+                    <li>Package {{ packages[1].name }} plus </li>
+                    <li>Custom simulation hours</li>
+                    <li>Topology Optimization method</li>
                   </ul>
                   <p class="text-center mb-0">
                     <a
-                      href="#"
+                      href="mailto:contact@floating-gates.com"
                       class="btn btn-outline-primary btn-hovered"
                       :style="[
                         { color: themeColor },
@@ -131,4 +133,9 @@ const packages = [
   background-color: v-bind(themeColorOrange);
   border-color: v-bind(themeColor);
 }
+
+.ul-check.primary li::before {
+  color: v-bind(themeColorOrange); 
+}
+
 </style>

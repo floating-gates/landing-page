@@ -1,8 +1,3 @@
-<script setup>
-import { themeColor, siteName } from "../data/items";
-</script>
-
-
 <template>
   <nav class="site-nav dark js-site-navbar mb-5 site-navbar-target">
     <div class="container">

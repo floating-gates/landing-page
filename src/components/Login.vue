@@ -18,27 +18,20 @@ function switchToLogin() {
 
 <template>
   <LogoOnlyHeader />
+  
   <div class="untree_co-hero" id="auth-section">
     <div class="container">
       <div class="row align-items-center">
         <div class="col-lg-6 offset-lg-3">
-          <!-- LOGIN FORM -->
-          <div v-if="!showRegisterForm">
-            <LoginForm />
-            <div class="toggle-link mt-3">
-              Don’t have an account?
-              <a href="#" @click.prevent="switchToRegister">Register</a>
-            </div>
-          </div>
 
-          <!-- REGISTER FORM -->
-          <div v-else>
-            <RegistrationForm />
-            <div class="toggle-link mt-3">
-              Already have an account?
-              <a href="#" @click.prevent="switchToLogin">Login</a>
-            </div>
+          <div v-if="!showRegisterForm">
+            <LoginForm @switch-to-register="switchToRegister" />
           </div>
+          <div v-else>
+            <RegistrationForm @switch-to-login="switchToLogin"/>
+          </div>
+          
+          
         </div>
       </div>
     </div>
@@ -46,9 +39,9 @@ function switchToLogin() {
 </template>
 
 <style scoped>
-.form-group {
+  .form-group {
   margin-bottom: 1rem;
-}
+  }
 
 .form-control {
   width: 100%;

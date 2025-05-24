@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { themeColor, themeColorOrange, themeColorWhite } from "../data/items";
 import mainPhoto from "../assets/images/heat_exchanger.webp";
+import LogoOnlyHeader from "./LogoOnlyHeader.vue"
 
 // Dashboard data
 const userName = ref('John Doe');
@@ -56,7 +57,7 @@ const notifications = ref([
   }
 ]);
 
-const dashboardTitle = "Your Project Dashboard";
+const dashboardTitle = "Manufacturing Hub";
 const buttonNewProject = "Create New Project";
 const buttonViewAll = "View All Projects";
 
@@ -77,9 +78,19 @@ const toggleNotification = (id) => {
     notification.read = !notification.read;
   }
 };
+
+
+onMounted(async () => {
+  const response = await fetch(auth_api_end_point, {
+    credentials: 'include'                              // Important: send cookies!
+  })
+  isAuthenticated.value = response.ok
+})
+
 </script>
 
 <template>
+  <LogoOnlyHeader />
   <div class="untree_co-hero dashboard-section" id="dashboard-section">
     <div class="container">
       <div class="row align-items-center">

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { themeColor, login_user_api_endpoint} from '../data/items'
+import { themeColor, login_user_api_endpoint, auth_api_endpoint} from '../data/items'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -14,7 +14,7 @@ const isLoggedIn = ref(false)
 async function handleLogin() {
 
   let hasError = false
-
+  console.log(login_user_api_endpoint)
   // Validate input
   if (!login_form.value.email) {
     error.value = 'Email is required.'
@@ -39,8 +39,9 @@ async function handleLogin() {
     })
 
     if (response.ok) {
-      console.log('User logged in:', login_form.value)
-
+        console.log('User logged in:', login_form.value)
+        isLoggedIn.value = true
+        router.push('/')
 
     // TODO - Optionally store a JWT or redirect here
     } else {
@@ -56,15 +57,17 @@ async function handleLogin() {
 };
 
 const verifyJwt = async () => {
-  try {
-    const response = await fetch('http://localhost:8000/user/me', {
+    try {
+        
+    const response = await fetch(auth_api_endpoint, {
       credentials: 'include',
     })
+      
     if (response.ok) {
       const user = await response.json()
       isLoggedIn.value = true
-      console.log('User is loggedsasasa in:', user)
-      router.push('/user/app') // redirect
+      console.log('User is logged in as:', user)
+      router.push('/') // redirect
     } else {
       isLoggedIn.value = false
     }
@@ -97,7 +100,7 @@ onMounted(() => {
       />
     </div>
 
-    <div class="form-group">
+    <div class="form-group mb-4">
       <label>Password</label>
       <input
         v-model="login_form.password"
@@ -110,7 +113,7 @@ onMounted(() => {
 
     <button
       type="submit"
-      class="btn btn-primary"
+      class="btn btn-primary mb-4"
       :style="{ background: themeColor, borderColor: themeColor }"
       :disabled="isLoading"
     >
@@ -118,13 +121,11 @@ onMounted(() => {
     </button>
   </form>
 
-<div v-if="isLoggedIn" class="success-text" data-aos="fade-up">
-  ✅ You are logged in.
-</div>
-<div v-else class="info-text" data-aos="fade-up">
-  🔐 Please log in to continue.
-</div>
-
+  <div class="toggle-link mt-3">
+    Don’t have an account?
+    <a href="#" @click.prevent="$emit('switch-to-register')">Register</a>
+  </div>
+  
 </template>
 
 <style scoped>

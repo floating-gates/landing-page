@@ -1,27 +1,32 @@
 <script setup>
-import mainPhoto from "../assets/images/service2.jpg";
+import photo1 from "../assets/images/service1.jpg";
+import photo2 from "../assets/images/service2.jpg";
+import photo3 from "../assets/images/service3.jpg";
 import heat_exchanger_pic from "../assets/images/heat_exchanger.webp";
-import { themeColor } from "../data/items";
+import { themeColor, themeColorOrange, themeColorLille,
+         themeColorGold, themeColorWhite } from "../data/items";
+
+const heading = "How does it work?";
 
 const items = [
   {
     id: 1,
     name: "Publish your Platform",
-    des: "After our first contact you will be able to publish your 3D platform.",
+    des: "You will be able to publish your 3D platform at your name.",
   },
   {
     id: 2,
-    name: "Wait for 3D models",
-    des: "Clients will funnel 3D model to be printed into your platform.",
+    name: "Wait for 3D models to come",
+    des: "Your gained customer will funnel 3D model to be printed into your platform.",
   },
   {
     id: 3,
-    name: "Allow limitless Optimization",
-    des: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.",
+    name: "Allow Limitless Optimizations",
+    des: "Your customer will have the possibility  to run generative body generations.",
   },
   {
     id: 4,
-    name: "Manufacture",
+    name: "Use your tools and Manufacture it.",
     des: "You will make use of your machines to make the device possible and ship it to the customer.",
   },
 ];
@@ -31,7 +36,9 @@ const total = 4;
 <template>
   <div class="untree_co-section bg-light" id="features-section">
     <div class="container">
-      <div class="row justify-content-between">
+      <h1 class="heading" data-aos="fade-up">{{ heading }}</h1>
+      <div class="row justify-content-between d-flex align-items-center">
+        
         <div class="col-lg-5 order-lg-2 js-custom-dots">
           <a
             href="#"
@@ -39,13 +46,13 @@ const total = 4;
             data-aos="fade-left"
             data-aos-delay="0"
           >
-            <div class="service-icon color-1 mb-4">
+            <div class="service-icon  mb-4" :style="{ backgroundColor: themeColorWhite }">
               <svg
                 class="bi bi-app-indicator"
                 width="1em"
                 height="1em"
                 viewBox="0 0 16 16"
-                fill="currentColor"
+                fill="{{themeColor}}"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
@@ -66,13 +73,13 @@ const total = 4;
             data-aos="fade-left"
             data-aos-delay="100"
           >
-            <div class="service-icon color-2 mb-4">
+            <div class="service-icon  mb-4" :style="{ backgroundColor: themeColorLille }" >
               <svg
                 class="bi bi-arrow-repeat"
                 width="1em"
                 height="1em"
                 viewBox="0 0 16 16"
-                fill="currentColor"
+                fill="{{themeColor}}"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
@@ -96,13 +103,13 @@ const total = 4;
             data-aos="fade-left"
             data-aos-delay="200"
           >
-            <div class="service-icon color-3 mb-4">
-              <svg
+            <div class="service-icon  mb-4" :style="{ backgroundColor: themeColorGold }">
+              <svg 
                 class="bi bi-briefcase"
                 width="1em"
                 height="1em"
                 viewBox="0 0 16 16"
-                fill="currentColor"
+                fill="{{themeColor}}"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
@@ -126,13 +133,13 @@ const total = 4;
             data-aos="fade-left"
             data-aos-delay="300"
           >
-            <div class="service-icon color-4 mb-4">
+            <div class="service-icon mb-4" :style="{ backgroundColor: themeColorOrange }">
               <svg
                 class="bi bi-collection"
                 width="1em"
                 height="1em"
                 viewBox="0 0 16 16"
-                fill="currentColor"
+                fill="{{themeColor}}"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
@@ -152,11 +159,11 @@ const total = 4;
             <div class="owl-single no-dots owl-carousel">
               <div class="item">
                 <span class="number">{{ items[0].id }}/{{ total }}</span>
-                <img :src="mainPhoto" alt="Image" class="img-fluid" />
+                <img :src="photo2" alt="Image" class="img-fluid" />
               </div>
               <div class="item">
                 <span class="number">{{ items[1].id }}/{{ total }}</span>
-                <img :src="mainPhoto" alt="Image" class="img-fluid" />
+                <img :src="photo2" alt="Image" class="img-fluid" />
               </div>
               <div class="item">
                 <span class="number">{{ items[2].id }}/{{ total }}</span>
@@ -164,7 +171,7 @@ const total = 4;
               </div>
               <div class="item">
                 <span class="number">{{ items[3].id }}/{{ total }}</span>
-                <img :src="mainPhoto" alt="Image" class="img-fluid" />
+                <img :src="photo2" alt="Image" class="img-fluid" />
               </div>
             </div>
           </div>
@@ -173,3 +180,26 @@ const total = 4;
     </div>
   </div>
 </template>
+
+
+<style scoped>
+.heading {
+  margin-bottom: 6rem;  /* adds vertical space below */
+  font-size: 3.5rem;   /* adjust to your design system */
+  font-weight: 600;
+  text-align: left;   /* optional, use left if desired */
+}
+
+.service-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.owl-single .number {
+  background-color: v-bind(themeColor);
+  }
+
+
+</style>
