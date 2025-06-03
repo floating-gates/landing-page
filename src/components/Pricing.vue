@@ -1,19 +1,31 @@
 <script setup>
-import { themeColor, themeColorOrange } from "../data/items";
+import { themeColor, themeColorOrange, price_list } from "../data/items";
 const heading = "Pricing";
-const subHeading = "Pricing refer to the hosting services. While you can choose how much it is going to cost how to produce customer devices";
+const subHeading = "Pricing refer to the hosting services. While you can choose how much charging the customer to produce their devices";
 const startButtonName = "Get Started";
+
+const package_names_vec = Object.keys(price_list)
+
+function capitalizeWord(word) {
+    const firstLetter = word.charAt(0)
+    const firstLetterCap = firstLetter.toUpperCase()
+    const remainingLetters = word.slice(1)
+    const capitalizedWord = firstLetterCap + remainingLetters
+    return capitalizedWord 
+}
+
+
 const packages = [
   {
-    name: "Basic",
-    price: "49.00",
+    name: capitalizeWord(package_names_vec[1]),
+    price: price_list[package_names_vec[1]],
   },
   {
-    name: "Standard",
+    name: capitalizeWord(package_names_vec[2]),
     price: "Coming Soon",
   },
   {
-    name: "Enterprise",
+    name: capitalizeWord(package_names_vec[3]),
     price: "Coming Soon",
   },
 ];
@@ -48,7 +60,7 @@ const packages = [
                   </ul>
                   <p class="text-center mb-0">
                     <a
-                      href="mailto:contact@floating-gates.com"
+                      href="/login"
                       class="btn btn-outline-primary btn-hovered"
                       :style="[
                         { color: themeColor },
@@ -77,7 +89,7 @@ const packages = [
                   </ul>
                   <p class="text-center mb-0">
                     <a
-                      href="mailto:contact@floating-gates.com"
+                      href="/login"
                       class="btn btn-primary"
                       :style="[
                         { backgroundColor: themeColor },
@@ -106,7 +118,7 @@ const packages = [
                   </ul>
                   <p class="text-center mb-0">
                     <a
-                      href="mailto:contact@floating-gates.com"
+                      href="/login"
                       class="btn btn-outline-primary btn-hovered"
                       :style="[
                         { color: themeColor },

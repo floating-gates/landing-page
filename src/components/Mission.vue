@@ -1,6 +1,6 @@
 <script setup>
 import { themeColor, themeColorOrange } from "../data/items";
-import mainPhoto from "../assets/images/mission.jpg";
+import mainPhoto from "../assets/images/manufacturing_hub_pic.webp";
 import LogoOnlyHeader from "./LogoOnlyHeader.vue";
 
 const missionHeading = "Our Mission";

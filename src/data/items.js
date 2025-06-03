@@ -1,9 +1,11 @@
 export { themeColor, themeColorOrange,
          themeColorWhite, themeColorLille,
-         themeColorGold, contactInfo,
+         themeColorGold, contactInfo, price_list, base_url,
          register_user_api_endpoint, login_user_api_endpoint,
-         auth_api_endpoint, logout_api_endpoint, siteName,
-         JWT_TOKEN_NAME }
+         auth_api_endpoint, logout_api_endpoint,
+         get_subscription_endpoint, create_subscription_endpoint,
+         get_project_endpoint, create_project_endpoint,
+         username_api_endpoint, JWT_TOKEN_NAME }
 
 const themeColor       = '#223843'
 const themeColorOrange = '#D77A61'
@@ -11,22 +13,30 @@ const themeColorWhite  = '#EFF1F3'
 const themeColorLille  = '#D8D3D8'
 const themeColorGold   = '#D8B4A0'
 
-// const siteName = 'Floating Gates'
-// const api_endpoint = 'https://floating-gates.com/api'
-
-const VITE_APP_TITLE = import.meta.env.VITE_APP_TITLE
-const VITE_URL =  import.meta.env.VITE_URL
+const base_url =  import.meta.env.VITE_URL
 
 const JWT_TOKEN_NAME = "jwt"
 
-const siteName =  VITE_APP_TITLE
-const api_endpoint = VITE_URL
+const auth_api_endpoint          = base_url + '/api/user/me'
 
-const register_user_api_endpoint = api_endpoint + '/api/user/register'
-const login_user_api_endpoint    = api_endpoint + '/api/user/login'
-const auth_api_endpoint          = api_endpoint + '/api/user/me'
-const logout_api_endpoint        = api_endpoint + '/api/user/logout'
+const register_user_api_endpoint = base_url + '/api/user/register'
+const login_user_api_endpoint    = base_url + '/api/user/login'
+const logout_api_endpoint        = base_url + '/api/user/logout'
+const username_api_endpoint      = base_url + '/api/user/name'
 
+const get_subscription_endpoint    = base_url + '/api/subscription'
+const create_subscription_endpoint = base_url + '/api/subscription/create'
+
+const get_project_endpoint    = base_url + '/api/project'
+const create_project_endpoint = base_url + '/api/project/create'
+
+
+const price_list = {
+    'free': 0.00,
+    'basic': 49.00,
+    'standard': 149.00,
+    'enterprise': 399.00,
+}
 
 const contactInfo = {
     address: 'Via Capitello Rasa 28, Lendinara (RO), 45026, Italy',

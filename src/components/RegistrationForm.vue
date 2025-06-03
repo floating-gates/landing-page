@@ -1,22 +1,23 @@
 <script setup>
 import { reactive, ref } from 'vue'
-import { themeColor, register_user_api_endpoint} from '../data/items'
+import { themeColor, register_user_api_endpoint} from '../data/items.js'
+import { user_login } from '../user_handler/login.js'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 
 const form = reactive({
   full_name: '',
-  country: '',
+  company: '',
   phone_number: '',
   postal_code: '',
-  language: '',
   email: '',
-  password: '',
-  role: '',
-  is_admin: false,
+  password: ''
 })
 
 const errors = reactive({
   full_name: '',
-  country: '',
   email: '',
   password: '',
   role: '',
@@ -32,11 +33,6 @@ async function handleSubmit() {
 
   if (!form.full_name) {
     errors.full_name = 'Full name is required.'
-    hasError = true
-  }
-
-  if (!form.country) {
-    errors.country = 'Country is required.'
     hasError = true
   }
 
@@ -60,17 +56,22 @@ async function handleSubmit() {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(form),
        })
-
+        
   if (response.ok) {
     console.log('User registration submitted:', { ...form })
-    submitted.value = true
+    // submitted.value = true
+    user_login(form.email,
+               form.password)
+    router.push('/')
+    return
+
+    } else {
     Object.keys(form).forEach(key => {
       if (typeof form[key] === 'boolean') form[key] = false
       else form[key] = ''
     })
-   
-    window.location.href = '/';
-  }
+            
+}
 
   // Try to parse error response
   const errorData = await response.json()
@@ -103,14 +104,13 @@ async function handleSubmit() {
             <p v-if="errors.full_name" class="error-text">{{ errors.full_name }}</p>
           </div>
 
-          <!-- Country -->
+          <!-- Optional Fields -->
+          
           <div class="form-group">
-            <label>Country</label>
-            <input v-model="form.country" type="text" class="form-control" />
-            <p v-if="errors.country" class="error-text">{{ errors.country }}</p>
+            <label>Company Name (Optional)</label>
+            <input v-model="form.company" type="text" class="form-control" />
           </div>
 
-          <!-- Optional Fields -->
           <div class="form-group">
             <label>Phone Number (optional)</label>
             <input v-model="form.phone_number" type="text" class="form-control" />
@@ -119,11 +119,6 @@ async function handleSubmit() {
           <div class="form-group">
             <label>Postal Code (optional)</label>
             <input v-model="form.postal_code" type="text" class="form-control" />
-          </div>
-
-          <div class="form-group">
-            <label>Language (optional)</label>
-            <input v-model="form.language" type="text" class="form-control" />
           </div>
 
           <!-- Email -->
@@ -138,21 +133,6 @@ async function handleSubmit() {
             <label>Password</label>
             <input v-model="form.password" type="password" class="form-control" />
             <p v-if="errors.password" class="error-text">{{ errors.password }}</p>
-          </div>
-
-          <!-- Role -->
-          <div class="form-group">
-            <label>Role</label>
-            <input v-model="form.role" type="text" class="form-control" />
-            <p v-if="errors.role" class="error-text">{{ errors.role }}</p>
-          </div>
-
-          <!-- Admin Checkbox -->
-          <div class="form-group">
-            <label>
-              <input v-model="form.is_admin" type="checkbox" />
-              Is Admin
-            </label>
           </div>
 
           <!-- Submit Button -->
@@ -171,11 +151,13 @@ async function handleSubmit() {
           <p v-if="errors.email" class="error-text">{{ errors.email }}</p>
         </form>
       </div>
-      <div>
-        Already have an account?
-        <a href="#" @click.prevent="$emit('switch-to-login')">Login</a>
-      </div> 
     </div>
+    <div class="register-footer">
+      Already have an account?
+      <a href="#" @click.prevent="$emit('switch-to-login')">Login</a>
+      | By registering you apply at <a href="/terms_and_services"> Terms and Conditions</a>
+      </div> 
+
   </div>
 </template>
 
@@ -203,4 +185,12 @@ async function handleSubmit() {
   color: green;
   font-weight: bold;
 }
+
+.register-footer {
+  margin-top: 2rem;
+  margin-bottom: 3rem; /* Adjust as needed */
+  text-align: center;
+  font-size: 0.95rem;
+}
+
 </style>

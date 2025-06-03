@@ -1,93 +1,68 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { themeColor, login_user_api_endpoint, auth_api_endpoint} from '../data/items'
+import { themeColor, auth_api_endpoint} from '../data/items'
+import { user_login } from '../user_handler/login.js'
 import { useRouter } from 'vue-router'
-
-const router = useRouter()
 
 // Form state
 const login_form = ref({ email: '', password: '' })
+const router = useRouter()
 const error = ref('')
 const isLoading = ref(false)
 const isLoggedIn = ref(false)
 
 async function handleLogin() {
-
+  // Clear previous error at the start
+  error.value = ''
   let hasError = false
-  console.log(login_user_api_endpoint)
+  
   // Validate input
   if (!login_form.value.email) {
     error.value = 'Email is required.'
     hasError = true
   }
-
   if (!login_form.value.password) {
     error.value = 'Password is required.'
     hasError = true
   }
-
   if (hasError) return
-
+  
   isLoading.value = true
-
+  
   try {
-    const response = await fetch(login_user_api_endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(login_form.value),
-      credentials: 'include', 
-    })
-
-    if (response.ok) {
-        console.log('User logged in:', login_form.value)
-        isLoggedIn.value = true
-        router.push('/')
-
-    // TODO - Optionally store a JWT or redirect here
+    const response = await user_login(login_form.value.email, login_form.value.password);
+    
+    if (response.status === 202) {
+      router.push('/dashboard');
     } else {
-      const err = await response.json()
-      error.value = err.message || 'Invalid credentials.'
+      // Handle different error statuses
+      if (response.status === 401) {
+        error.value = 'Invalid email or password. Please try again.';
+      } else if (response.status === 403) {
+        error.value = 'Account access forbidden. Please contact support.';
+      } else if (response.status >= 500) {
+        error.value = 'Server error. Please try again later.';
+      } 
     }
   } catch (e) {
-    console.error(e)
-    error.value = 'Network error or server unavailable.'
+    console.error('Login error:', e); // Debug log
+    error.value = e.message || 'Network error. Please check your connection.';
   } finally {
-    isLoading.value = false
-  }
-};
-
-const verifyJwt = async () => {
-    try {
-        
-    const response = await fetch(auth_api_endpoint, {
-      credentials: 'include',
-    })
-      
-    if (response.ok) {
-      const user = await response.json()
-      isLoggedIn.value = true
-      console.log('User is logged in as:', user)
-      router.push('/') // redirect
-    } else {
-      isLoggedIn.value = false
-    }
-  } catch (err) {
-    console.error('JWT verification failed', err)
-    isLoggedIn.value = false
+    isLoading.value = false;
   }
 }
-
-onMounted(() => {
-  verifyJwt();
-});
-
 </script>
 
 <template>
   <h2 class="heading" data-aos="fade-up">Login</h2>
-
-  <div v-if="error" class="error-text">{{ error }}</div>
-
+  
+  <!-- Debug: Show error state -->
+  <!-- <div>Debug - Error: "{{ error }}" (Length: {{ error.length }})</div> -->
+  
+  <div v-if="error" class="error-text" data-testid="error-message">
+    {{ error }}
+  </div>
+  
   <form @submit.prevent="handleLogin" data-aos="fade-up" data-aos-delay="100">
     <div class="form-group">
       <label>Email</label>
@@ -99,7 +74,6 @@ onMounted(() => {
         placeholder="Enter your email"
       />
     </div>
-
     <div class="form-group mb-4">
       <label>Password</label>
       <input
@@ -110,7 +84,6 @@ onMounted(() => {
         placeholder="Enter your password"
       />
     </div>
-
     <button
       type="submit"
       class="btn btn-primary mb-4"
@@ -120,12 +93,11 @@ onMounted(() => {
       {{ isLoading ? 'Logging in...' : 'Login' }}
     </button>
   </form>
-
+  
   <div class="toggle-link mt-3">
-    Don’t have an account?
+    Don't have an account?
     <a href="#" @click.prevent="$emit('switch-to-register')">Register</a>
   </div>
-  
 </template>
 
 <style scoped>
@@ -143,7 +115,12 @@ onMounted(() => {
 .error-text {
   color: red;
   font-size: 0.875rem;
-  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: #fee;
+  border: 1px solid #fcc;
+  border-radius: 4px;
+  display: block;
 }
 
 .success-text {

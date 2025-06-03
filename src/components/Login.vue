@@ -2,6 +2,7 @@
 import RegistrationForm from "./RegistrationForm.vue";
 import LoginForm from "./LoginForm.vue";
 import LogoOnlyHeader from "./LogoOnlyHeader.vue";
+
 import { ref } from 'vue';
 
 const showRegisterForm = ref(false);
@@ -13,7 +14,6 @@ function switchToRegister() {
 function switchToLogin() {
   showRegisterForm.value = false;
 }
-
 </script>
 
 <template>

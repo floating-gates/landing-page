@@ -1,75 +1,51 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { themeColor, themeColorOrange, themeColorWhite } from "../data/items";
+import { themeColor, themeColorOrange, themeColorWhite } from "../data/items.js";
 import mainPhoto from "../assets/images/heat_exchanger.webp";
 import LogoOnlyHeader from "./LogoOnlyHeader.vue"
 
+import { create_project, get_project } from '../project_handler/project.js';
+
+import { get_username }               from "../user_handler/user_info.js";
+import { verify_jwt }                  from "../user_handler/login.js";
+
 // Dashboard data
-const userName = ref('John Doe');
-const activeProjects = ref(3);
+const recentProjects = ref([]);
+const isAuthenticated = ref(false);
+const error = ref('');
+
+const userName = ref('');
+const activeProjects = ref(recentProjects.value.length);
 const pendingSimulations = ref(2);
 const completedSimulations = ref(7);
 
-// Recent projects data
-const recentProjects = ref([
-  {
-    id: 1,
-    name: 'Heat Exchanger Model A45',
-    status: 'Simulation Complete',
-    progress: 100,
-    dateUpdated: '2025-05-15'
-  },
-  {
-    id: 2,
-    name: 'Pressure Vessel P100',
-    status: 'In Progress',
-    progress: 65,
-    dateUpdated: '2025-05-16'
-  },
-  {
-    id: 3,
-    name: 'Cooling Tower CT-200',
-    status: 'Awaiting Approval',
-    progress: 30,
-    dateUpdated: '2025-05-17'
-  }
-]);
 
-// Notifications data
-const notifications = ref([
-  {
-    id: 1,
-    message: 'Simulation completed for Heat Exchanger Model A45',
-    time: '2 hours ago',
-    read: false
-  },
-  {
-    id: 2,
-    message: 'New comment on Pressure Vessel P100',
-    time: '5 hours ago',
-    read: true
-  },
-  {
-    id: 3,
-    message: 'Manufacturing process started for project #1024',
-    time: '1 day ago',
-    read: true
-  }
-]);
+// // Notifications data
+// const notifications = ref([
+//   {
+//     id: 1,
+//     message: 'Simulation completed for Heat Exchanger Model A45',
+//     time: '2 hours ago',
+//     read: false
+//   },
+//   {
+//     id: 2,
+//     message: 'New comment on Pressure Vessel P100',
+//     time: '5 hours ago',
+//     read: true
+//   },
+//   {
+//     id: 3,
+//     message: 'Manufacturing process started for project #1024',
+//     time: '1 day ago',
+//     read: true
+//   }
+// ]);
 
 const dashboardTitle = "Manufacturing Hub";
 const buttonNewProject = "Create New Project";
 const buttonViewAll = "View All Projects";
 
-// Mock function for creating a new project
-const createNewProject = () => {
-  alert('New project creation wizard would open here');
-};
-
-// Mock function for viewing all projects
-const viewAllProjects = () => {
-  alert('Navigating to all projects view');
-};
 
 // Toggle notification read status
 const toggleNotification = (id) => {
@@ -80,13 +56,67 @@ const toggleNotification = (id) => {
 };
 
 
-onMounted(async () => {
-  const response = await fetch(auth_api_end_point, {
-    credentials: 'include'                              // Important: send cookies!
-  })
-  isAuthenticated.value = response.ok
-})
 
+async function create_new_project() {
+  const name = prompt("Enter project name:");
+  if (!name) return;
+
+  const description = "new";
+
+  try {
+    const res = await create_project(name, description);
+    if (!res.ok) {
+      const errData = await res.json();
+      throw new Error(errData.message || 'Failed to create project');
+    }
+
+    const newProject = await res.json();
+
+    // Optional: prepend to the project list for immediate feedback
+    recentProjects.value.unshift(newProject);
+    activeProjects.value = recentProjects.value.length;
+
+    alert(`Project "${newProject.name}" created successfully!`);
+  } catch (err) {
+    alert("Error creating project: " + err.message);
+  }
+    
+};
+
+
+onMounted(async () => {
+
+    isAuthenticated.value = await verify_jwt();
+
+    if (!isAuthenticated.value) {
+        window.location.replace("/login");
+    }
+
+    try {
+        const res = await get_username();
+        if (!res.ok) {
+            throw new Error('Failed to fetch username');
+        }
+
+        userName.value = await res.json()
+    } catch (e) {
+        error.value = e.message;
+    }    
+    
+    
+    try {
+        const res = await get_project();
+        if (!res.ok) {
+            throw new Error('Failed to fetch projects');
+        }
+
+        const project_list   = await res.json()
+        activeProjects.value = project_list.length
+        recentProjects.value = project_list
+    } catch (e) {
+        error.value = e.message;
+    }    
+})
 </script>
 
 <template>
@@ -132,7 +162,7 @@ onMounted(async () => {
             </div>
 
             <!-- Main Dashboard Content -->
-            <div class="col-lg-8" data-aos="fade-up" data-aos-delay="400">
+            <div class="col-12" data-aos="fade-up" data-aos-delay="400">
               <div class="dashboard-main-content">
                 <div class="content-header">
                   <h2 class="section-title">Recent Projects</h2>
@@ -145,15 +175,8 @@ onMounted(async () => {
                         { background: themeColor },
                         { borderColor: themeColor },
                       ]"
-                      @click.prevent="createNewProject"
+                      @click.prevent="create_new_project"
                       >{{ buttonNewProject }}</a
-                    >
-                    <a
-                      href="#"
-                      class="btn btn-outline-primary btn-hover"
-                      :style="[{ color: themeColor }, { borderColor: themeColor }]"
-                      @click.prevent="viewAllProjects"
-                      >{{ buttonViewAll }}</a
                     >
                   </div>
                 </div>
@@ -171,13 +194,12 @@ onMounted(async () => {
                         Status: 
                         <span 
                           :style="{ 
-                            color: project.status === 'Simulation Complete' ? themeColorOrange : themeColor 
-                          }"
+                            color: project.status === 'Simulation Complete' ? themeColorOrange : themeColor}"
                         >
                           {{ project.status }}
                         </span>
                       </p>
-                      <p class="project-date">Last updated: {{ project.dateUpdated }}</p>
+                      <p class="project-date">Last updated: {{ project.updated_at }}</p>
                     </div>
                     <div class="project-progress">
                       <div class="progress">
@@ -201,38 +223,38 @@ onMounted(async () => {
               </div>
             </div>
 
-            <!-- Sidebar -->
-            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="500">
-              <div class="dashboard-sidebar">
-                <!-- Preview Image -->
-                <div class="sidebar-image mb-4">
-                  <img :src="mainPhoto" alt="3D Model Preview" class="img-fluid" />
-                  <div class="image-overlay">
-                    <p>Latest 3D Model</p>
-                  </div>
-                </div>
+      <!--       <\!-- Sidebar -\-> -->
+      <!--       <div class="col-lg-4" data-aos="fade-up" data-aos-delay="500"> -->
+      <!--         <div class="dashboard-sidebar"> -->
+      <!--           <\!-- Preview Image -\-> -->
+      <!--           <div class="sidebar-image mb-4"> -->
+      <!--             <img :src="mainPhoto" alt="3D Model Preview" class="img-fluid" /> -->
+      <!--             <div class="image-overlay"> -->
+      <!--               <p>Latest 3D Model</p> -->
+      <!--             </div> -->
+      <!--           </div> -->
 
-                <!-- Notifications -->
-                <div class="notifications-panel">
-                  <h2 class="section-title">Notifications</h2>
-                  <div class="notifications-list">
-                    <div 
-                      v-for="notification in notifications" 
-                      :key="notification.id" 
-                      class="notification-item"
-                      :class="{ 'unread': !notification.read }"
-                      @click="toggleNotification(notification.id)"
-                    >
-                      <div class="notification-content">
-                        <p class="notification-message">{{ notification.message }}</p>
-                        <p class="notification-time">{{ notification.time }}</p>
-                      </div>
-                      <div class="notification-indicator" :class="{ 'read': notification.read }"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <!--           <\!-- Notifications -\-> -->
+      <!--           <div class="notifications-panel"> -->
+      <!--             <h2 class="section-title">Notifications</h2> -->
+      <!--             <div class="notifications-list"> -->
+      <!--               <div  -->
+      <!--                 v-for="notification in notifications"  -->
+      <!--                 :key="notification.id"  -->
+      <!--                 class="notification-item" -->
+      <!--                 :class="{ 'unread': !notification.read }" -->
+      <!--                 @click="toggleNotification(notification.id)" -->
+      <!--               > -->
+      <!--                 <div class="notification-content"> -->
+      <!--                   <p class="notification-message">{{ notification.message }}</p> -->
+      <!--                   <p class="notification-time">{{ notification.time }}</p> -->
+      <!--                 </div> -->
+      <!--                 <div class="notification-indicator" :class="{ 'read': notification.read }"></div> -->
+      <!--               </div> -->
+      <!--             </div> -->
+      <!--           </div> -->
+      <!--         </div> -->
+      <!--       </div> -->
           </div>
         </div>
       </div>
@@ -313,7 +335,7 @@ onMounted(async () => {
 
 .project-status, .project-date {
   font-size: 14px;
-  color: #666;
+  color: v-bind(themeColor);
   margin-bottom: 5px;
 }
 
@@ -345,7 +367,7 @@ onMounted(async () => {
 
 .notification-item {
   padding: 12px 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid v-bind(themeColor);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -367,7 +389,7 @@ onMounted(async () => {
 
 .notification-time {
   font-size: 12px;
-  color: #888;
+  color: v-bind(themeColor);
   margin: 0;
 }
 
@@ -375,11 +397,11 @@ onMounted(async () => {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: #ccc;
+  background-color: v-bind(themeColor);
 }
 
 .notification-indicator.read {
-  background-color: #ccc;
+  background-color: v-bind(themeColor);
 }
 
 .notification-indicator:not(.read) {

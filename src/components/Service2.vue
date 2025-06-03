@@ -1,7 +1,7 @@
 <script setup>
-import photo1 from "../assets/images/service1.jpg";
-import photo2 from "../assets/images/service2.jpg";
-import photo3 from "../assets/images/service3.jpg";
+import dashboard_pic from "../assets/images/manufacturing_hub_pic.webp";
+import printer_pic from "../assets/images/printer.webp";
+import product_pic from "../assets/images/product.png"
 import heat_exchanger_pic from "../assets/images/heat_exchanger.webp";
 import { themeColor, themeColorOrange, themeColorLille,
          themeColorGold, themeColorWhite } from "../data/items";
@@ -12,22 +12,22 @@ const items = [
   {
     id: 1,
     name: "Publish your Platform",
-    des: "You will be able to publish your 3D platform at your name.",
+    des: "Deploy your manufacturing hub at your name.",
   },
   {
     id: 2,
-    name: "Wait for 3D models to come",
-    des: "Your gained customer will funnel 3D model to be printed into your platform.",
+    name: "Wait for 3D models to come to you",
+    des: "Your customers will funnel models to be printed by your machine.",
   },
   {
     id: 3,
     name: "Allow Limitless Optimizations",
-    des: "Your customer will have the possibility  to run generative body generations.",
+    des: "Your customers car run shape optimizations.",
   },
   {
     id: 4,
-    name: "Use your tools and Manufacture it.",
-    des: "You will make use of your machines to make the device possible and ship it to the customer.",
+    name: "Time to use your 3D printers",
+    des: "Make use of your machines to produce the devices and ship it.",
   },
 ];
 const total = 4;
@@ -41,7 +41,7 @@ const total = 4;
         
         <div class="col-lg-5 order-lg-2 js-custom-dots">
           <a
-            href="#"
+            
             class="service link horizontal d-flex active"
             data-aos="fade-left"
             data-aos-delay="0"
@@ -68,7 +68,6 @@ const total = 4;
             </div>
           </a>
           <a
-            href="#"
             class="service link horizontal d-flex"
             data-aos="fade-left"
             data-aos-delay="100"
@@ -98,7 +97,6 @@ const total = 4;
             </div>
           </a>
           <a
-            href="#"
             class="service link horizontal d-flex"
             data-aos="fade-left"
             data-aos-delay="200"
@@ -128,7 +126,6 @@ const total = 4;
             </div>
           </a>
           <a
-            href="#"
             class="service link horizontal d-flex"
             data-aos="fade-left"
             data-aos-delay="300"
@@ -159,11 +156,11 @@ const total = 4;
             <div class="owl-single no-dots owl-carousel">
               <div class="item">
                 <span class="number">{{ items[0].id }}/{{ total }}</span>
-                <img :src="photo2" alt="Image" class="img-fluid" />
+                <img :src="dashboard_pic" alt="Dashboard Manufacturing" class="img-fluid" />
               </div>
               <div class="item">
                 <span class="number">{{ items[1].id }}/{{ total }}</span>
-                <img :src="photo2" alt="Image" class="img-fluid" />
+                <img :src="product_pic" alt="Image" class="img-fluid" />
               </div>
               <div class="item">
                 <span class="number">{{ items[2].id }}/{{ total }}</span>
@@ -171,7 +168,7 @@ const total = 4;
               </div>
               <div class="item">
                 <span class="number">{{ items[3].id }}/{{ total }}</span>
-                <img :src="photo2" alt="Image" class="img-fluid" />
+                <img :src="printer_pic" alt="Image" class="img-fluid" />
               </div>
             </div>
           </div>
@@ -200,6 +197,5 @@ const total = 4;
 .owl-single .number {
   background-color: v-bind(themeColor);
   }
-
 
 </style>
