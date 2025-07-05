@@ -46,10 +46,10 @@ const socialItems = [
             <div class="widget">
               <h3>{{ column3Heading }}</h3>
               <ul class="list-unstyled float-left links">
-                <li><a href="#">Scientific Software Dev.</a></li>
-                <li><a href="#">Mechanical Design</a></li>
-                <li><a href="#">Data Pipeline</a></li>
-                <li><a href="#">Physics with Machine Learning</a></li>
+                <li><a href="/services">Scientific Software Dev.</a></li>
+                <li><a href="/services">Mechanical Design</a></li>
+                <li><a href="/services">Data Pipeline</a></li>
+                <li><a href="/services">Physics with Machine Learning</a></li>
               </ul>
             </div>
           </div>

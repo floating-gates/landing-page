@@ -2,7 +2,7 @@
 import mainPhoto from "../assets/images/heat_exchanger.webp";
 import { themeColor, themeColorOrange, themeColorWhite } from "../data/items";
 
-const heroHeading = "Host your Platform to Receive and Simulate Customers' Devices";
+const heroHeading = "Host your Platform to Receive and Simulate Customers' Projects";
 const buttonSeeFeature = "How does it work";
 const buttonPricing = "Pricing";
 </script>
@@ -19,10 +19,10 @@ const buttonPricing = "Pricing";
               data-aos="fade-right"
               data-aos-delay="400"
             >
-              <img :src="mainPhoto" alt="Image" class="img-fluid" />
+              <img :src="mainPhoto" alt="Heat Exchanger" class="img-fluid" />
             </div>
             <div class="col-lg-5">
-              <h1 class="heading" data-aos="fade-up" data-aos-delay="0">
+              <h1 class="heading" data-aos="fade-up" data-aos-delay="100">
                 {{ heroHeading }}
               </h1>
               <div class="excerpt" data-aos="fade-up" data-aos-delay="100">

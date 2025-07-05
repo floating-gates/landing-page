@@ -8,22 +8,23 @@ const router = useRouter()
 
 
 const form = reactive({
-  full_name: '',
-  company: '',
-  phone_number: '',
-  postal_code: '',
-  email: '',
-  password: ''
+    full_name: '',
+    company: '',
+    phone_number: '',
+    postal_code: '',
+    email: '',
+    password: ''
 })
 
 const errors = reactive({
-  full_name: '',
-  email: '',
-  password: '',
-  role: '',
+    full_name: '',
+    email: '',
+    password: '',
+    role: '',
 })
 
 const submitted = ref(false)
+
 
 async function handleSubmit() {
   submitted.value = false
@@ -48,45 +49,43 @@ async function handleSubmit() {
 
   if (hasError) return
 
-  //////////////  REGISTRATION ON DB
-
   try {
-      const response = await fetch(register_user_api_endpoint, {
+    const response = await fetch(register_user_api_endpoint, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
-       })
-        
-  if (response.ok) {
-    console.log('User registration submitted:', { ...form })
-    // submitted.value = true
-    user_login(form.email,
-               form.password)
-    router.push('/')
-    return
-
-    } else {
-    Object.keys(form).forEach(key => {
-      if (typeof form[key] === 'boolean') form[key] = false
-      else form[key] = ''
     })
-            
-}
 
-  // Try to parse error response
-  const errorData = await response.json()
-  if (response.status === 409 && errorData.error_code === 'USER_DUPLICATE') {
-    errors.email = 'Email already registered.'
-  } else {
-    console.error('Submission failed during registration:', errorData)
-    alert(errorData.message || 'An error occurred.')
-  }
+    const result = await response.json()
+
+    if (!response.ok) {
+      if (response.status === 409 && result.error_code === 'USER_DUPLICATE') {
+        errors.email = 'Email already registered.'
+      } else {
+        console.error('Registration error:', result)
+        alert(result.message || 'Registration failed.')
+      }
+      return
+    }
+
+    console.log('User registration successful:', result)
+
+    // Login right after registration
+    const login_response = await user_login(form.email, form.password)
+    if (login_response.ok) {
+      submitted.value = true
+      router.push('/')
+    } else {
+      alert('Login failed after registration.')
+    }
 
   } catch (error) {
     console.error('Submission error:', error)
     alert('A network or unexpected error occurred.')
   }
 }
+
+
 </script>
 
 
@@ -108,17 +107,15 @@ async function handleSubmit() {
           
           <div class="form-group">
             <label>Company Name (Optional)</label>
-            <input v-model="form.company" type="text" class="form-control" />
+            <input v-model="form.company"      type="text" class="form-control" />
           </div>
-
+          <div class="form-group">
+            <label>Postal Code (optional)</label>
+            <input v-model="form.postal_code"  type="text" class="form-control" />
+          </div>
           <div class="form-group">
             <label>Phone Number (optional)</label>
             <input v-model="form.phone_number" type="text" class="form-control" />
-          </div>
-
-          <div class="form-group">
-            <label>Postal Code (optional)</label>
-            <input v-model="form.postal_code" type="text" class="form-control" />
           </div>
 
           <!-- Email -->

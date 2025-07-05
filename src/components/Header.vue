@@ -1,87 +1,109 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, defineProps } from "vue";
+
+defineProps({
+    context: {
+        type: String,
+    },
+    admin: {
+        type: String,
+        default: false
+    },
+})
 
 import { verify_jwt } from "../user_handler/login.js"
-import { themeColor,
-         logout_api_endpoint,
+import { themeColor, demo_url, logout_api_endpoint,
          JWT_TOKEN_NAME } from "../data/items.js";
 
 const isAuthenticated = ref(false);
 
 onMounted(async () => {
-   isAuthenticated.value = await verify_jwt();
+    isAuthenticated.value = await verify_jwt();
 })
 
 const logout = async () => {
-  try {
-    await fetch(logout_api_endpoint, {
-      method: 'POST',
-      credentials: 'include',
-    });
-  } catch (error) {
-    console.error("Logout failed", error);
-  } finally {
-    localStorage.removeItem(JWT_TOKEN_NAME);
-    isAuthenticated.value = await verify_jwt();
-  }
+    try {
+        await fetch(logout_api_endpoint, {
+            method: 'POST',
+            credentials: 'include',
+        });
+    } catch (error) {
+        console.error("Logout failed", error);
+    } finally {
+        localStorage.removeItem( JWT_TOKEN_NAME );
+        isAuthenticated.value = await verify_jwt();
+    }
 };
 </script>
 
 
 <template>
-  <nav class="site-nav dark js-site-navbar mb-5 site-navbar-target">
-    <div class="container">
-      <div class="site-navigation">
-        <a href="/" class="logo m-0 float-left">
-            <img src="../assets/images/logo.webp" alt="Logo" class="logo-img" />
-        </a>
+<nav class="site-nav dark js-site-navbar mb-5 site-navbar-target">
+  <div class="container">
+    <div class="site-navigation">
+      <a href="/" class="logo m-0 float-left">
+        <img src="../assets/images/logo.webp" alt="Logo" class="logo-img" />
+      </a>
+      
+      <div v-if="context === 'landing-page'">
+        
         <ul class="js-clone-nav d-none d-lg-inline-block site-menu float-left">
-
           <li><a href="#features-section" class="nav-link">How does it work</a></li>
           <li><a href="#pricing-section" class="nav-link">Pricing</a></li>
           <li><a href="/mission" class="nav-link">Mission</a></li>
-
-          <!-- <li><a href="#about-section" class="nav-link">About</a></li> -->
-          <!-- <li><a href="#contact-section" class="nav-link">Contact</a></li> -->
-          <li class="has-children">
-            <a class="nav-link">Projects</a>
-            <ul class="dropdown">
-              <!-- <li> -->
-                <!--   <a href="#testimonials-section" class="nav-link"> -->
-                  <!--     Testimonials -->
-                  <!--   </a> -->
-                <!-- </li> -->
-              <li><a class="nav-link">MX-GP Motorbike Heat Sinks</a></li>
-              <!-- <li><a href="#" class="nav-link">High Power Inverter Cooling system</a></li> -->
-            </ul>
-          </li>
+          <li><a href="/services" class="nav-link">Services</a></li>
         </ul>
         
-        <ul class="js-clone-nav d-none mt-1 d-lg-inline-block site-menu float-right" v-if="!isAuthenticated">
+        <!-- Auth buttons (can be context-specific too) -->
+        <ul v-if="!isAuthenticated" class="js-clone-nav d-none mt-1 d-lg-inline-block site-menu float-right">
           <li class="cta-button-outline" style="margin-right: 10px;">
             <a href="/login">Sign in</a>
           </li>
+                    
           <li class="cta-primary">
-            <a href="/dashboard" :style="[{ backgroundColor: themeColor }]">Manufacturing Hub</a>
+              <a :href="demo_url" :style="[{ backgroundColor: themeColor }]">Demo</a>
           </li>
+          
         </ul>
-        <ul class="js-clone-nav d-none mt-1 d-lg-inline-block site-menu float-right" v-else>
+        
+        <ul v-else-if="isAuthenticated" class="js-clone-nav d-none mt-1 d-lg-inline-block site-menu float-right">
           <li class="cta-button-outline" style="margin-right: 10px;">
             <a href="/dashboard">Dashboard</a>
           </li>
           <li class="cta-primary">
-            <a @click.prevent="logout" :style="[{ backgroundColor: themeColor }]">Logout</a>
+            <a @click="logout" :style="[{ backgroundColor: themeColor }]">Logout</a>
           </li>
         </ul>
-        <a
-          href="#"
-          class="burger ml-auto float-right site-menu-toggle js-menu-toggle d-inline-block dark d-lg-none"
-          data-toggle="collapse"
-          data-target="#main-navbar"
-          >
-          <span></span>
-        </a>
       </div>
+      
+      <!-- DASHBOARD HEADER -->
+      
+      <div v-if="context === 'dashboard'">
+        <ul class="js-clone-nav d-none mt-1 d-lg-inline-block site-menu float-right" v-if="isAuthenticated">
+          <li class="cta-button-outline" style="margin-right: 10px;">
+            <a href="/profile">Profile</a>
+          </li>
+        </ul>
+      </div>
+      
+      <div v-else-if="context === 'profile'" >
+        <ul class="js-clone-nav d-none mt-1 d-lg-inline-block site-menu float-right" v-if="isAuthenticated">
+          <li class="cta-button-outline" style="margin-right: 10px;">
+            <a href="/dashboard">Dashboard</a>
+          </li>
+        </ul>
+      </div>
+   
+      
+      <div v-if="admin" >
+        <ul class="js-clone-nav d-none mt-1 d-lg-inline-block site-menu float-right">
+          <li class="cta-button-outline" >
+            <a href="/admin_dashboard">Admin Dashboard</a>
+          </li>
+        </ul>
+      </div>
+      
     </div>
-  </nav>
+  </div>
+</nav>
 </template>

@@ -4,12 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build-test": "vite build --mode development",
+    "build-test": "vite build --mode development && cp -r dist/* /shared_fs/data/landing-page",
     "build-staging": "vite build --mode staging",
     "build-production": "vite build --mode production",
-      "deploy-staging": "vite build --mode staging && scp -r dist/* rocky@test.floating-gates.com:/shared_fs/data/landing-page",
-      "deploy-production": "vite build --mode production && scp -r dist/* basic@floating-gates.com:/mnt/HC_Volume_102380839/data/landing-page"
-      
+    "deploy-staging":    "npm run build-staging    && scp -r dist/* mattia@192.168.1.99:/shared_fs/data/landing-page",
+    "deploy-production": "npm run build-production && scp -r dist/* mattia@192.168.1.100:/shared_fs/data/landing-page"
   },
   "dependencies": {
     "vue": "^3.3.4",

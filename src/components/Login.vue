@@ -1,7 +1,7 @@
 <script setup>
 import RegistrationForm from "./RegistrationForm.vue";
 import LoginForm from "./LoginForm.vue";
-import LogoOnlyHeader from "./LogoOnlyHeader.vue";
+import Header from "./Header.vue";
 
 import { ref } from 'vue';
 
@@ -17,7 +17,7 @@ function switchToLogin() {
 </script>
 
 <template>
-  <LogoOnlyHeader />
+  <Header :context="'login'" />
   
   <div class="untree_co-hero" id="auth-section">
     <div class="container">

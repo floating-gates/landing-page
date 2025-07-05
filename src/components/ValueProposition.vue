@@ -1,34 +1,33 @@
 <script setup>
-import LogoOnlyHeader from "./LogoOnlyHeader.vue";
+import Header from "./Header.vue";
 import { themeColor } from "../data/items.js";
 
 const value_proposition_intro = "Unlocks the full potential of your machinery by delivering a steady flow of qualified orders, helping you grow your online presence without extra effort."
 
-const product_intro  = "Platform for makers to deploy online a manufacturing hub, allowing additional customer funnneling, providing services for advanced manifacturing i.g. simulation and shape optimization."
+const product_intro = "Online platform to allow additional customer funnneling, providing services for advanced manifacturing i.g. simulation and shape optimization."
 
 const productSections = [
   {
-    title: "Benefits",
-    points: [
-      "Low effort to manufacture a 3D model",
-      "Real-time pricing",
-      "Automatic shape optimization"
-    ]
-  },
-  {
-    title: "Blockers tackling",
+    title: "Gives",
     points: [
       "Manufactuting checks",
       "Automated order handling and tracking",
       "Pay before shipment"
     ]
-  },
-  {
+   },
+   {
     title: "Feature",
     points: [
+      "Real-time pricing",
+      "Automatic shape optimization"
+    ]
+  },
+
+  {
+    title: "Stand out from the crowd",
+    points: [
       "Model analyzer and shape optimizer",
-      "Simulation module integarted",
-      "Integrated payment"
+      "Simulation module integrated",
     ]
   }
 ];
@@ -39,16 +38,15 @@ const customerSections = [
   {
     title: "Want",
     points: [
-      "More customer onboarding",
-      "Less quoting overhead",
-      "Tools to improve profitability"
+      "More customer",
+      "Less quoting",
+      "More Adevertising"
     ]
   },
   {
     title: "Fear",
     points: [
       "Wasting time on unprintable files",
-      "Platform not advertised",
       "Customer not paying"
     ]
   },
@@ -64,7 +62,7 @@ const customerSections = [
 </script>
 
 <template>
-  <LogoOnlyHeader />
+  <Header :context="'login'" />
   <div class="page">
     <div class="intro">
       <h1>Smarter Manufacturing Starts Here</h1>

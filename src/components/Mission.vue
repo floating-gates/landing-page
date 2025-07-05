@@ -1,10 +1,10 @@
 <script setup>
 import { themeColor, themeColorOrange } from "../data/items";
 import mainPhoto from "../assets/images/manufacturing_hub_pic.webp";
-import LogoOnlyHeader from "./LogoOnlyHeader.vue";
+import Header from "./Header.vue";
 
 const missionHeading = "Our Mission";
-const missionSubHeading = "Maximizing the Potential of 3D Manufactuting Everywhere";
+const missionSubHeading = "Maximizing the Potential of 3D Manufacturing Everywhere";
 const missionQuote =
   '"Our goal is to empower individuals and businesses by enabling easy access to underutilized 3D printers — turning idle capacity into real-world value."';
 function youtubeVideoUrl() {
@@ -14,13 +14,13 @@ function youtubeVideoUrl() {
 </script>
 
 <template>
-  <LogoOnlyHeader />
+  <Header :context="'login'" />
   <div class="untree_co-section bg-light">
     <div class="container">
       <div class="row justify-content-between d-flex align-items-center">
         <div class="col-lg-4">
           <span
-            class="caption mb-2"
+            class="caption"
             data-aos="fade-up"
             data-aos-delay="0"
             :style="[{ color: themeColor }]"
